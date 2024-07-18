@@ -1,0 +1,5 @@
+This folder contains all the models required
+
+'WhisperSpeech/WhisperSpeech'
+'charactr/vocos-encodec-24khz'
+'speechbrain/spkrec-ecapa-voxceleb'
