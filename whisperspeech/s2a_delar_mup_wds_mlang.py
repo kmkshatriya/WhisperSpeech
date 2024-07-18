@@ -491,12 +491,10 @@ class SADelARTransformer(nn.Module):
     @torch.no_grad()
     def generate(self, stoks, speakers, langs=None, atoks_prompt=None, N=None, bs=1, T=0.7, top_k=None, show_progress_bar=True, step=None, subsample_enc=False):
         dev = self.device
-        
-        t_dtype = self.dtype if torch.cuda.is_available() else torch.float   
-        
+        print(f"Device:{dev}")
         N = N or len(stoks) * 3
         stoks = F.pad(stoks.to(dev), (1, self.stoks_len - len(stoks) - 1), value=self.stoks_codes-1).unsqueeze(0)
-        speakers = speakers.to(device=dev, dtype=t_dtype)
+        speakers = speakers.to(device=dev, dtype=torch.long)
         toks = torch.full((bs,self.quantizers,self.ctx_n), self.codes+1, dtype=torch.long, device=dev)
         T = torch.tensor(T, device=dev)
 
