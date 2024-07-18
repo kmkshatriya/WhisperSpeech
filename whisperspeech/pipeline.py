@@ -42,7 +42,7 @@ class Pipeline:
          0.2702,  0.1699, -0.1443, -0.9614,  0.3261,  0.1718,  0.3545, -0.0686]
     )
     
-    def __init__(self, t2s_ref=None, s2a_ref=None, optimize=True, torch_compile=False, device=None):
+    def __init__(self, t2s_ref=None, s2a_ref=None, voc_ref=None, spbr_ref=None, optimize=True, torch_compile=False, device=None):
         if device is None: device = inference.get_compute_device()
         self.device = device
         args = dict(device = device)
@@ -71,8 +71,11 @@ class Pipeline:
         except:
             print("Failed to load the S2A model:")
             print(traceback.format_exc())
-
-        self.vocoder = Vocoder(device=device)
+            
+        if voc_ref:
+            self.vocoder = Vocoder(repo_id=voc_ref, device=device)            
+        else:
+            self.vocoder = Vocoder(device=device)
         self.encoder = None
 
     def extract_spk_emb(self, fname):
@@ -83,9 +86,15 @@ class Pipeline:
             device = self.device
             if device == 'mps': device = 'cpu' # operator 'aten::_fft_r2c' is not currently implemented for the MPS device
             from speechbrain.pretrained import EncoderClassifier
-            self.encoder = EncoderClassifier.from_hparams("speechbrain/spkrec-ecapa-voxceleb",
-                                                          savedir=expanduser("~/.cache/speechbrain/"),
-                                                          run_opts={"device": device})
+            if spbr_ref:
+                self.encoder = EncoderClassifier.from_hparams(spbr_ref,
+                                                              savedir=expanduser("~/.cache/speechbrain/"),
+                                                              run_opts={"device": device})
+            else:
+                self.encoder = EncoderClassifier.from_hparams("speechbrain/spkrec-ecapa-voxceleb",
+                                                              savedir=expanduser("~/.cache/speechbrain/"),
+                                                              run_opts={"device": device})
+                
         audio_info = torchaudio.info(fname)
         actual_sample_rate = audio_info.sample_rate
         num_frames = actual_sample_rate * 30 # specify 30 seconds worth of frames
