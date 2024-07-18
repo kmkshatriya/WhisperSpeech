@@ -77,6 +77,7 @@ class Pipeline:
         else:
             self.vocoder = Vocoder(device=device)
         self.encoder = None
+        self.spbr_ref = spbr_ref
 
     def extract_spk_emb(self, fname):
         """Extracts a speaker embedding from the first 30 seconds of the give audio file.
