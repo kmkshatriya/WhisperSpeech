@@ -89,6 +89,7 @@ class Pipeline:
             from speechbrain.pretrained import EncoderClassifier
             if self.spbr_ref:
                 self.encoder = EncoderClassifier.from_hparams(source=self.spbr_ref,
+                                                              savedir=self.spbr_ref,
                                                               run_opts={"device": device})
             else:
                 self.encoder = EncoderClassifier.from_hparams("speechbrain/spkrec-ecapa-voxceleb",
