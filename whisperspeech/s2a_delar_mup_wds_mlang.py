@@ -494,7 +494,7 @@ class SADelARTransformer(nn.Module):
         print(f"Device:{dev}")
         N = N or len(stoks) * 3
         stoks = F.pad(stoks.to(dev), (1, self.stoks_len - len(stoks) - 1), value=self.stoks_codes-1).unsqueeze(0)
-        speakers = speakers.to(device=dev, dtype=self.dtype)
+        speakers = speakers.to(device=dev)
         toks = torch.full((bs,self.quantizers,self.ctx_n), self.codes+1, dtype=torch.long, device=dev)
         T = torch.tensor(T, device=dev)
 
