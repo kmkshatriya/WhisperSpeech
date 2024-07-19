@@ -49,7 +49,7 @@ class Pipeline:
         try:
             if t2s_ref:
                 args["ref"] = t2s_ref
-            self.t2s = TSARTransformer.load_model(**args)  # use obtained compute device
+            self.t2s = TSARTransformer.load_model(**args).to(device)  # use obtained compute device
             if optimize: self.t2s.optimize(torch_compile=torch_compile)
         except:
             print("Failed to load the T2S model:")
@@ -66,7 +66,7 @@ class Pipeline:
                     args['spec'] = spec
             else:
                 cls = SADelARTransformer
-            self.s2a = cls.load_model(**args)  # use obtained compute device
+            self.s2a = cls.load_model(**args).to(device)  # use obtained compute device
             if optimize: self.s2a.optimize(torch_compile=torch_compile)
         except:
             print("Failed to load the S2A model:")
