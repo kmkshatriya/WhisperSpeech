@@ -1,6 +1,3 @@
-# app.py --txt "Hello, how are you doing today"
-
-
 import os
 import argparse
 from whisperspeech.pipeline import Pipeline
@@ -24,16 +21,9 @@ parser.add_argument(
   )
 
 parser.add_argument(
-  '--clone', 
-  action='store_true', 
-  help='If True, then the default/given speaker voice would be used',
-  )
-
-parser.add_argument(
   '--speaker', 
   type=str,
   help='Path of reference speaker audio to be cloned.', 
-  default='input/a.wav'
   )
 
 args = parser.parse_args()
@@ -48,7 +38,7 @@ def main():
       spbr_ref=f'{code_dir}/models/speechbrain',
       device=device
   )
-  if args.clone:
+  if args.speaker:
       pipe.generate_to_file(
         args.outfile, 
         args.txt, 
