@@ -28,8 +28,10 @@ parser.add_argument(
   )
 
 parser.add_argument(
-  '--speaker', type=int, 
-					help='Select default speaker from input folder. 1,2,3 etc..', default=0)  
+  '--speaker', 
+  type=int, 
+  help='Select default speaker from input folder. 1,2,3 etc..', default=0
+  )  
 
 args = parser.parse_args()
 #---------------------------------------------
