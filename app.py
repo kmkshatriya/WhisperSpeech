@@ -22,10 +22,14 @@ parser.add_argument(
   )
 
 parser.add_argument(
-  '--speaker', 
+  '--clone', 
   type=str,
   help='Path of reference speaker audio to be cloned.', 
   )
+
+parser.add_argument(
+  '--speaker', type=int, 
+					help='Select default speaker from input folder. 1,2,3 etc..', default=0)  
 
 args = parser.parse_args()
 #---------------------------------------------
@@ -39,13 +43,23 @@ def main():
       spbr_ref=f'{code_dir}/models/speechbrain',
       device=device
   )
-  if args.speaker:
+  if args.speaker or args.clone:
+    if args.speaker:
+      clone_file=f'{code_dir}/input/{args.speaker}.wav'
       pipe.generate_to_file(
         args.outfile, 
         args.txt, 
         lang='en', 
         cps=10.5, 
-        speaker=args.speaker
+        speaker=args.clone
+        ) 
+    else:                  
+      pipe.generate_to_file(
+        args.outfile, 
+        args.txt, 
+        lang='en', 
+        cps=10.5, 
+        speaker=args.clone
         )  
   else:
       pipe.generate_to_file(args.outfile, args.txt)
