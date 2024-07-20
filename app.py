@@ -1,4 +1,5 @@
 import os
+import torch
 import argparse
 from whisperspeech.pipeline import Pipeline
 
@@ -30,7 +31,7 @@ args = parser.parse_args()
 #---------------------------------------------
 
 def main():
-
+  device = 'cuda' if torch.cuda.is_available() else 'cpu'
   pipe = Pipeline(
       s2a_ref=f'{code_dir}/models/whisp/s2a-q4-tiny-en+pl.model', 
       t2s_ref=f'{code_dir}/models/whisp/t2s-small-en+pl.model', 
