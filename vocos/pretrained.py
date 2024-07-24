@@ -60,7 +60,7 @@ class Vocos(nn.Module):
         return model
 
     @classmethod
-    def from_pretrained(cls, repo_id: str, local_pth=None, enc_ref=None, revision: Optional[str] = None) -> Vocos:
+    def from_pretrained(cls, repo_id: str, local_pth=None, enc_pth=None, revision: Optional[str] = None) -> Vocos:
         """
         Class method to create a new Vocos model instance from a pre-trained model stored in the Hugging Face model hub.
         """
@@ -74,7 +74,7 @@ class Vocos(nn.Module):
         state_dict = torch.load(model_path, map_location="cpu")
 
         encodec_features = EncodecFeatures(
-            enc_repo=Path(enc_ref)
+            enc_repo=Path(enc_pth)
         )
 
         if isinstance(model.feature_extractor, encodec_features):
