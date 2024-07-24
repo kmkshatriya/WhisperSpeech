@@ -49,7 +49,7 @@ class MelSpectrogramFeatures(FeatureExtractor):
         return features
 
 
-class EncodecFeatures(FeatureExtractor):
+class EncodecFeatures(FeatureExtractor, enc_repo):
     def __init__(
         self,
         encodec_model: str = "encodec_24khz",
@@ -65,7 +65,7 @@ class EncodecFeatures(FeatureExtractor):
             raise ValueError(
                 f"Unsupported encodec_model: {encodec_model}. Supported options are 'encodec_24khz' and 'encodec_48khz'."
             )
-        self.encodec = encodec(pretrained=True)
+        self.encodec = encodec(pretrained=True, repository=enc_repo)
         for param in self.encodec.parameters():
             param.requires_grad = False
         self.num_q = self.encodec.quantizer.get_num_quantizers_for_bandwidth(

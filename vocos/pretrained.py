@@ -60,7 +60,7 @@ class Vocos(nn.Module):
         return model
 
     @classmethod
-    def from_pretrained(cls, repo_id: str, local_pth=None, revision: Optional[str] = None) -> Vocos:
+    def from_pretrained(cls, repo_id: str, local_pth=None, enc_repo=None, revision: Optional[str] = None) -> Vocos:
         """
         Class method to create a new Vocos model instance from a pre-trained model stored in the Hugging Face model hub.
         """
@@ -72,7 +72,7 @@ class Vocos(nn.Module):
             model_path = hf_hub_download(repo_id=repo_id, filename="pytorch_model.bin", revision=revision)
         model = cls.from_hparams(config_path)
         state_dict = torch.load(model_path, map_location="cpu")
-        if isinstance(model.feature_extractor, EncodecFeatures):
+        if isinstance(model.feature_extractor, EncodecFeatures(enc_repo=enc_repo))):
             encodec_parameters = {
                 "feature_extractor.encodec." + key: value
                 for key, value in model.feature_extractor.encodec.state_dict().items()
@@ -132,7 +132,7 @@ class Vocos(nn.Module):
                     and L is the sequence length.
         """
         assert isinstance(
-            self.feature_extractor, EncodecFeatures
+            self.feature_extractor, EncodecFeatures(enc_repo=enc_repo)
         ), "Feature extractor should be an instance of EncodecFeatures"
 
         if codes.dim() == 2:
