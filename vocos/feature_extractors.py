@@ -4,7 +4,7 @@ import torch
 import torchaudio
 from encodec import EncodecModel
 from torch import nn
-
+from pathlib import Path
 from vocos.modules import safe_log
 
 
@@ -55,7 +55,7 @@ class EncodecFeatures(FeatureExtractor):
         encodec_model: str = "encodec_24khz",
         bandwidths: List[float] = [1.5, 3.0, 6.0, 12.0],
         train_codebooks: bool = False,
-        enc_repo='None'
+        enc_pth:str='None'
     ):
         super().__init__()
         if encodec_model == "encodec_24khz":
@@ -66,7 +66,8 @@ class EncodecFeatures(FeatureExtractor):
             raise ValueError(
                 f"Unsupported encodec_model: {encodec_model}. Supported options are 'encodec_24khz' and 'encodec_48khz'."
             )
-        if enc_repo:
+        if enc_pth:
+            enc_repo=Path(enc_pth)
             self.encodec = encodec(pretrained=True, repository=enc_repo)
         else:
             self.encodec = encodec(pretrained=True)

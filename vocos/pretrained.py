@@ -9,7 +9,6 @@ from torch import nn
 from vocos.feature_extractors import FeatureExtractor, EncodecFeatures
 from vocos.heads import FourierHead
 from vocos.models import Backbone
-from pathlib import Path
 
 def instantiate_class(args: Union[Any, Tuple[Any, ...]], init: Dict[str, Any]) -> Any:
     """Instantiates a class with the given args and init.
@@ -73,9 +72,7 @@ class Vocos(nn.Module):
         model = cls.from_hparams(config_path)
         state_dict = torch.load(model_path, map_location="cpu")
 
-        encodec_features = EncodecFeatures(
-            enc_repo=Path(enc_pth)
-        )
+        encodec_features = EncodecFeatures(enc_pth=enc_pth)
 
         if isinstance(model.feature_extractor, encodec_features):
             encodec_parameters = {
