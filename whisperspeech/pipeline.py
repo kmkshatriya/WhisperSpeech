@@ -73,7 +73,7 @@ class Pipeline:
             print(traceback.format_exc())
             
         if voc_ref:
-            self.vocoder = Vocoder(local_pth=voc_ref, device=device, enc_repo=enc_ref)            
+            self.vocoder = Vocoder(local_pth=voc_ref, device=device, enc_ref=enc_ref)            
         else:
             self.vocoder = Vocoder(device=device)
         self.encoder = None
