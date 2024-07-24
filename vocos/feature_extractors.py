@@ -55,7 +55,7 @@ class EncodecFeatures(FeatureExtractor):
         encodec_model: str = "encodec_24khz",
         bandwidths: List[float] = [1.5, 3.0, 6.0, 12.0],
         train_codebooks: bool = False,
-        enc_pth:str='None'
+        enc_pth:str=None
     ):
         super().__init__()
         if encodec_model == "encodec_24khz":
