@@ -55,7 +55,7 @@ class EncodecFeatures(FeatureExtractor):
         encodec_model: str = "encodec_24khz",
         bandwidths: List[float] = [1.5, 3.0, 6.0, 12.0],
         train_codebooks: bool = False,
-        enc_pth:str=None
+        # enc_pth:str=None
     ):
         super().__init__()
         if encodec_model == "encodec_24khz":
@@ -66,12 +66,12 @@ class EncodecFeatures(FeatureExtractor):
             raise ValueError(
                 f"Unsupported encodec_model: {encodec_model}. Supported options are 'encodec_24khz' and 'encodec_48khz'."
             )
-        if enc_pth:
-            enc_repo=Path(enc_pth)
-            self.encodec = encodec(pretrained=True, repository=enc_repo)
-        else:
-            self.encodec = encodec(pretrained=True)
-
+        # if enc_pth:
+        #     enc_repo=Path(enc_pth)
+        #     self.encodec = encodec(pretrained=True, repository=enc_repo)
+        # else:
+        #     self.encodec = encodec(pretrained=True)
+        self.encodec = encodec(pretrained=True)
         for param in self.encodec.parameters():
             param.requires_grad = False
         self.num_q = self.encodec.quantizer.get_num_quantizers_for_bandwidth(
