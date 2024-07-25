@@ -47,7 +47,7 @@ def main():
   )
   if args.speaker or args.clone:
     if args.speaker:
-      clone_file=f'{code_dir}/input/{args.speaker}.wav'
+      clone_file=f'{code_dir}/input/v{args.speaker}.wav'
       pipe.generate_to_file(
         args.outfile, 
         args.txt, 
