@@ -59,7 +59,7 @@ class Vocos(nn.Module):
         return model
 
     @classmethod
-    def from_pretrained(cls, repo_id: str, local_pth=None, enc_pth=None, revision: Optional[str] = None) -> Vocos:
+    def from_pretrained(cls, repo_id: str, local_pth=None, revision: Optional[str] = None) -> Vocos:
         """
         Class method to create a new Vocos model instance from a pre-trained model stored in the Hugging Face model hub.
         """

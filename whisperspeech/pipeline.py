@@ -42,7 +42,7 @@ class Pipeline:
          0.2702,  0.1699, -0.1443, -0.9614,  0.3261,  0.1718,  0.3545, -0.0686]
     )
     
-    def __init__(self, t2s_ref=None, s2a_ref=None, voc_ref=None, spbr_ref=None, enc_ref=None, optimize=True, torch_compile=False, device=None):
+    def __init__(self, t2s_ref=None, s2a_ref=None, voc_ref=None, spbr_ref=None, optimize=True, torch_compile=False, device=None):
         if device is None: device = inference.get_compute_device()
         self.device = device
         args = dict(device = device)
@@ -73,7 +73,7 @@ class Pipeline:
             print(traceback.format_exc())
             
         if voc_ref:
-            self.vocoder = Vocoder(local_pth=voc_ref, enc_pth=enc_ref, device=device)            
+            self.vocoder = Vocoder(local_pth=voc_ref, device=device)            
         else:
             self.vocoder = Vocoder(device=device)
         self.encoder = None

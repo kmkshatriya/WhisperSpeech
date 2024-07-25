@@ -11,11 +11,11 @@ import torchaudio
 
 # %% ../nbs/6. Quality-boosting vocoder.ipynb 2
 class Vocoder:
-    def __init__(self, repo_id="charactr/vocos-encodec-24khz", local_pth=None, enc_pth=None, device=None):
+    def __init__(self, repo_id="charactr/vocos-encodec-24khz", local_pth=None, device=None):
         if device is None: device = inference.get_compute_device()
         if device == 'mps': device = 'cpu' # mps does not currently work with vocos, thus only cuda or cpu
         self.device = device
-        self.vocos = Vocos.from_pretrained(repo_id, local_pth, enc_pth).to(device)
+        self.vocos = Vocos.from_pretrained(repo_id, local_pth).to(device)
 
     def is_notebook(self):
         try:
