@@ -53,7 +53,7 @@ def main():
         args.txt, 
         lang='en', 
         cps=10.5, 
-        speaker=args.clone
+        speaker=clone_file
         ) 
     else:                  
       pipe.generate_to_file(
